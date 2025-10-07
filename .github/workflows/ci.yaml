@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+  workflow_dispatch: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    name: CI
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Swift Environment (swift-actions/setup-swift)
+        uses: swift-actions/setup-swift@v2
+
+      - name: Install Homebrew Tools
+        run: |
+          brew install swiftlint swiftformat
+
+      - name: Run SwiftLint Check
+        run: swiftlint lint --strict
+
+      - name: Check SwiftFormat Lint
+        run: swiftformat . --lint
+
+      - name: Resolve Swift Package Dependencies
+        # Using swift package resolve instead of xcodebuild
+        run: swift package resolve
+
+      - name: Swift Package Build
+        # Using swift build instead of xcodebuild
+        run: swift build
