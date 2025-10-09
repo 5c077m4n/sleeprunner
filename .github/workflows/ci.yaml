@@ -29,13 +29,13 @@ jobs:
 
       - name: Install Homebrew Tools
         run: |
-          brew install swiftlint swiftformat
+          brew install swift-format
 
-      - name: Run SwiftLint Check
-        run: swiftlint lint --strict
+      - name: Formatter Check
+        run: swift-format format **/*.swift
 
-      - name: Check SwiftFormat Lint
-        run: swiftformat . --lint
+      - name: Linter check
+        run: swift-format lint --strict **/*.swift
 
       - name: Resolve Swift Package Dependencies
         # Using swift package resolve instead of xcodebuild

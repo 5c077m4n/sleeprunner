@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "sleeprunner",
-    platforms: [.macOS(.v14)],
-    targets: [.executableTarget(name: "sleeprunner")]
+	name: "sleeprunner",
+	platforms: [.macOS(.v14)],
+	targets: [.executableTarget(name: "sleeprunner")]
 )
